@@ -108,6 +108,16 @@
         "loving"
       ],
       "id": "10"
+    },
+    {
+      "name": "liger",
+      "species": "liger",
+      "diet": "carnivore",
+      "personalityTraits": [
+        "loving",
+        "goofy"
+      ],
+      "id": "11"
     }
   ]
 }

@@ -6,6 +6,7 @@ const { animals } = require('./data/animals');
 const PORT = process.env.PORT || 3001;
 const app = express();
 
+app.use(express.static('public'));
 // parse incoming string or array data
 app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
@@ -23,7 +24,7 @@ function filterByQuery(query, animalsArray) {
     }
     personalityTraitsArray.forEach(trait => {
       filteredResults = filteredResults.filter(
-        //-1 means not present
+        //-1 means trait not present
         animal => animal.personalityTraits.indexOf(trait) !== -1
       );
     });
@@ -53,6 +54,7 @@ function createNewAnimal(body, animalsArray) {
 
   fs.writeFileSync(
     path.join(__dirname, './data/animals.json'),
+    //format
     JSON.stringify({ animals: animalsArray }, null, 2)
   );
   return animal;
@@ -92,8 +94,7 @@ app.get('/api/animals/:id', (req, res) => {
 });
 
 app.post('/api/animals', (req, res) => {
-  // req.body is where our incoming content will be
-  console.log(req.body);
+  //console.log(req.body);
   // set id based on what the next index of the array will be
   req.body.id = animals.length.toString();
   // if any data in req.body is incorrect, send 400 error back
@@ -103,6 +104,22 @@ app.post('/api/animals', (req, res) => {
     const animal = createNewAnimal(req.body, animals);
     res.json(animal);
   }
+});
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+app.get('/animals', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/animals.html'));
+});
+
+app.get('/zookeepers', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/zookeepers.html'));
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
 app.listen(PORT, () => {
