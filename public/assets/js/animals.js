@@ -18,7 +18,7 @@ const printResults = resultArr => {
   </div>
     `;
   });
-
+  
   $displayArea.innerHTML = animalHTML.join('');
 };
 
